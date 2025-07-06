@@ -1,0 +1,1 @@
+{{ $user->name }} votre compte est de nouveau actif. Vous pouvez maintenant lire ou partager vos histoires en toute sécurité. Merci de faire confiance à PlumeUP

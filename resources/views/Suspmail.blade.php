@@ -1,0 +1,1 @@
+{{ $user->name }} votre compte  a été suspendu pour certaines raisons en rapport avec vos récents agissements sur le site. Merci bien de vouloir patienter que votre site soit de nouveau actif et de faire confiance à PlumeUP
