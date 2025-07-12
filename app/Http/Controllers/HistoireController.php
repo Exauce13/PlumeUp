@@ -52,7 +52,7 @@ class HistoireController extends Controller
         // Traitement des images multiples
         // 📂 Traitement des images multiples à stocker dans "album" (CSV)
         $album = null;
-        if ($request->hasFile('histoire_images')) {
+        if($request->hasFile('histoire_images')) {
             $images = [];
             foreach ($request->file('histoire_images') as $img) {
                 $images[] = $img->store('webtoon_images', 'public');
@@ -125,7 +125,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Aventure & Action')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function romance()
     {
@@ -133,7 +133,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Romance')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function fantastique()
     {
@@ -141,7 +141,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Fantastique & Fantasy')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function fiction()
     {
@@ -149,7 +149,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Science-Fiction')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function horreur()
     {
@@ -157,7 +157,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Horreur & Suspense')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function policier()
     {
@@ -165,7 +165,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Policier & Mystère')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function drame()
     {
@@ -173,7 +173,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Drame & Réalisme')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function historique()
     {
@@ -181,7 +181,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Historique')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function contes()
     {
@@ -189,7 +189,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Jeunesse & Contes')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function poemes()
     {
@@ -197,7 +197,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Poèmes & Textes courts')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function dessin()
     {
@@ -205,7 +205,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Bande dessinée & Webtoon')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function fanfiction()
     {
@@ -213,7 +213,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $rechercheaa = HistoireModel::where('type_book', 'Fanfiction & Univers dérivés')->with(['likes', 'dislikes'])->get();
-        return view('users.lectures', ['history' => $rechercheaa]);
+        return view('Users.lectures', ['history' => $rechercheaa]);
     }
     public function listehistoire()
     {
@@ -221,7 +221,7 @@ class HistoireController extends Controller
             abort(403);
         }
         $recherche = HistoireModel::where('user_id', Auth::id())->get();
-        return view('auteurs.catalogue', [
+        return view('Auteurs.catalogue', [
             'meshistoires' => $recherche
         ]);
     }
@@ -315,6 +315,4 @@ class HistoireController extends Controller
             'img' => $img,
         ]);
     }
-
-
 }

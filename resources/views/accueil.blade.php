@@ -325,9 +325,11 @@
                         <a href="{{ route('log') }}" class="block px-6 py-3 border border-amber-500 text-amber-500 font-semibold rounded-lg hover:bg-amber-500 hover:text-black transition duration-200 text-center">
                             Connexion
                         </a>
+                        @if(auth()->user())
                         <a href="{{ route('deconnexion') }}" class="block px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition duration-200 text-center">
                             Déconnexion
                         </a>
+                        @endif
                     </div>
                 </div>
             </div>

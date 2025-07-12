@@ -36,7 +36,7 @@
       
       <div>
         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl transition duration-200">
-          S'inscrire
+          Se connecter
         </button>
       </div>
 
