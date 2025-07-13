@@ -1,0 +1,31 @@
+name: 🚀 Auto Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Déploiement sur EC2
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Cloner le dépôt
+      uses: actions/checkout@v3
+
+    - name: 📡 Connexion SSH et déploiement
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.AWS_EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.AWS_EC2_SSH_KEY }}
+        script: |
+          cd /var/www/laravel-app
+          git pull origin main
+          composer install --no-dev --optimize-autoloader
+          php artisan migrate --force
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          sudo chown -R www-data:www-data storage bootstrap/cache
