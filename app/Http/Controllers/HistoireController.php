@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\ChapitreModel;
 use App\Models\ImageChapitre;
 use App\Models\HistoireModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Spatie\PdfToImage\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Notifications\AjoutLivre;
+use App\Notifications\chapitreLivre;
+use Illuminate\Support\Facades\Notification;
 
 class HistoireController extends Controller
 {
@@ -69,8 +73,7 @@ class HistoireController extends Controller
         if ($request->type !== 'Bande dessinée & Webtoon' && $request->hasFile('histoire')) {
             $urlbook = $request->file('histoire')->store('histoire', 'public');
         }
-        // Création en base de données
-        HistoireModel::create([
+        $histoires = HistoireModel::create([
             'user_id' => Auth::id(),
             'titre_book' => $request->titre,
             'type_book' => $request->type,
@@ -79,7 +82,14 @@ class HistoireController extends Controller
             'photos' => $photoPath,
             'modediffusion' => $request->mode,
         ]);
-        return back()->with('success', 'Enregistrement réussi');
+        //where('id', '!=', Auth::id())Facultatif : pour ne pas notifier l’auteur lui-même
+         $autresUtilisateurs = User::where('id', '!=', $histoire->user_id)->get();
+         // 2. Notifier l'auteur
+         $histoire->user->notify(new AjoutLivre($histoires));
+         // 3. Notifier les autres utilisateurs
+         Notification::send($autresUtilisateurs, new AjoutLivre($histoires));
+         return redirect()->back()->with('success', 'Livre publié et notifications envoyées.');
+
     }
     public function publierChapitre(Request $request)
     {
@@ -96,14 +106,20 @@ class HistoireController extends Controller
         $fichier = $request->file('fichier');
         $cheminFichier = $fichier->store('chapitres', 'public');
         // Création du chapitre lié à l’histoire
-        ChapitreModel::create([
+        $chapitres = ChapitreModel::create([
             'histoire_id' => $request->histoire_id,
             'titre_chapitre' => $request->titre,
             'numerochapitre' => $request->numero,
             'url_chapitre' => $cheminFichier,
             'is_published' => true, // facultatif si tu veux gérer publication manuelle
         ]);
-        return back()->with('success', 'Chapitre publié avec succès.');
+        //where('id', '!=', Auth::id())Facultatif : pour ne pas notifier l’auteur lui-même
+         $autresUtilisateurs = User::where('id', '!=', $chapitres->user_id)->get();
+         // 2. Notifier l'auteur
+         $chapitres->user->notify(new AjoutLivre($chapitres));
+         // 3. Notifier les autres utilisateurs
+         Notification::send($autresUtilisateurs, new AjoutLivre($chapitres));
+         return redirect()->back()->with('success', 'Livre publié et notifications envoyées.');
     }
     #Permet d'afficher le premier chapitre de l'oeuvre
     public function voir(HistoireModel $histoire)

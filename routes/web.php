@@ -7,6 +7,7 @@ use App\Http\Controllers\HistoireController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\LikeDislikeController;
 use App\Http\Controllers\MessageriesController;
+use Illuminate\Http\Request;
 use App\Http\Requests\InscriptionRequest;
 use App\Models\HistoireModel;
 use App\Models\HistoireModels;
@@ -28,6 +29,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/accueil', function(){
         return view('Users.pageaccueil');
     })->name('accueil');
+    Route::get('/a-propos', function () {
+        return view('apropos');
+    })->name('a-propos');
+
     Route::get('/deconnexion', [InscriptionController::class, 'logout'])->name('deconnexion');
     Route::get('/profile', [InscriptionController::class, 'photoprofile'])->name('profiles');
     Route::put('/update', [InscriptionController::class, 'changementprofile'])->name('photo');
@@ -65,7 +70,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/divers', [HistoireController::class, 'fanfiction'])->name('univers');
     });
     Route::prefix('admin')->group(function(){
-            Route::get('/pages', [AdminController::class, 'page'])->name('yes');
+            Route::get('/yes', [AdminController::class, 'page'])->name('yes');
             Route::get('/liste', [AdminController::class, 'histoirelistes'])->name('listes');
             Route::get('/listeuser', [AdminController::class, 'Userlistes'])->name('lusers');
             Route::get('/modifeinfo/{users}', [AdminController::class, 'modifier'])->name('info');//Le nom du paramètre {users} doit être identique à la variable mis en paramètre
@@ -92,4 +97,8 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/users', [InscriptionController::class, 'searchusers'])->name('susers');
         Route::get('/histoire',[HistoireController::class, 'searchistoire'])->name('shistoire');
     });
+    Route::post('/notifications/mark-all-read', function (Request $request) {
+        auth()->user()->unreadNotifications->markAsRead();
+        return back();
+    })->name('notifications.markAllRead');
 });

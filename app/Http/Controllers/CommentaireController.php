@@ -15,7 +15,6 @@ class CommentaireController extends Controller
     {
         Gate::define(1, function ($user) {
             return $user->is_suspended == 1;
-            abort(403);
         });
         $commentaires = $histoire->commentaires()->with(['user', 'children.user'])->whereNull('parent_id')->latest()->get();
         return view('commentaires',compact('histoire', 'commentaires'));
@@ -25,7 +24,6 @@ class CommentaireController extends Controller
     {
         Gate::define(1 , function ($user) {
             return $user->is_suspended == 1;
-            abort(403);
         });
         $valide=$request->validate([
             'content' => 'required|string|max:1500',

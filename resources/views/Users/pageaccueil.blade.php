@@ -25,73 +25,100 @@
     </head>
     <body class="bg-white text-black">
         <!-- Navigation -->
-        <nav class="bg-white bg-opacity-90 fixed w-full z-10 shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-16">
-                    <!-- Logo et nom -->
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <img src="{{ asset('images/téléchargement.jpeg') }}" alt="Logo" class="h-10 w-auto opacity-60">
+<nav class="bg-white bg-opacity-90 fixed w-full z-10 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo et nom -->
+            <div class="flex items-center space-x-3">
+                <img src="{{ asset('images/téléchargement.jpeg') }}" alt="Logo" class="h-10 w-auto opacity-60">
+                <a href="#" class="text-xl font-bold text-plume-yellow">PlumeUP</a>
+            </div>
+
+            <!-- Menu de navigation (Desktop) -->
+            <div class="hidden md:flex space-x-6">
+                <a href="{{ route('accueil') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Accueil</a>
+                <a href="{{ route('actions') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Histoires</a>
+                <a href="{{ route('listesd') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Discussion</a>
+                @if(auth()->user()->statut == 'auteur')
+                    <a href="{{ route('pghistoires') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Mes histoires</a>
+                    <a href="{{ route('catalogues') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Catalogue</a>
+                @endif
+                @if(auth()->user()->statut == 'SuperAdmin')
+                    <a href="{{ route('yes') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">PgAdmin</a>
+                @endif
+                <a href="{{ route('profiles') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Profil</a>
+                <a href="{{ route('a-propos') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">À propos</a>
+            </div>
+
+            <!-- Section à droite : notifications + profil -->
+            <div class="flex items-center space-x-4">
+                <!-- Icône de notifications -->
+                <div class="relative">
+                    <button id="notification-toggle" class="relative text-gray-700 hover:text-yellow-500 focus:outline-none">
+                        <i class="fas fa-bell text-xl"></i>
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full animate-pulse">
+                                {{ auth()->user()->unreadNotifications->count() }}
+                            </span>
+                        @endif
+                    </button>
+                    <!-- Dropdown notifications -->
+                    <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
+                        <div class="py-2 px-4 font-semibold text-gray-700 border-b">Notifications</div>
+                        <div class="max-h-64 overflow-y-auto">
+                            @forelse(auth()->user()->unreadNotifications as $notification)
+                                <div class="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 border-b">
+                                    {{ $notification->data['message'] ?? 'Nouvelle notification' }}
+                                </div>
+                            @empty
+                                <div class="px-4 py-2 text-sm text-gray-500 text-center">Aucune notification</div>
+                            @endforelse
                         </div>
-                        <div class="flex items-center ml-2">
-                            <a href="#" class="text-xl font-bold text-plume-yellow">PlumeUP</a>
+                        <div class="text-center py-2">
+                            <form action="{{ route('notifications.markAllRead') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="text-xs text-blue-600 hover:underline">Marquer comme lues</button>
+                            </form>
                         </div>
-                        
-                        <!-- Menu de navigation pour desktop -->
-                        <div class="hidden md:block ml-10">
-                            <div class="flex items-center space-x-6">
-                                <a href="{{ route('accueil') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Accueil</a>
-                                <a href="{{ route('actions') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Histoires</a>
-                                <a href="{{ route('listesd') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Discussion</a>
-                                @if(auth()->user()->statut == 'auteur')
-                                <a href="{{ route('pghistoires') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Mes histoires</a>
-                                <a href="{{ route('catalogues') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Catalogue</a>
-                                @endif
-                                @if(auth()->user()->statut == 'SuperAdmin')
-                                <a href="{{ route('yes') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">PgAdmin</a>
-                                @endif
-                                <a href="{{ route('profiles') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Profil</a>
-                                <a href="#" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">À propos</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Profil utilisateur -->
-                    <div class="flex items-center space-x-3">
-                        <img src="{{ asset('storage/'. Auth::user()->avatar)}}" alt="" class="rounded-full w-7 h-7 object-cover">
-                        <p class="font-bold text-plume-yellow">{{ Auth::user()->name }}</p>
-                    </div>
-                    
-                    <!-- Bouton du menu mobile -->
-                    <div class="md:hidden">
-                        <button type="button" id="menu-toggle" class="bg-white inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
                     </div>
                 </div>
-                
-                <!-- Menu mobile -->
-                <div id="mobile-menu" class="md:hidden hidden">
-                    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
-                        <a href="{{ route('accueil') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Accueil</a>
-                        <a href="{{ route('actions') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Histoires</a>
-                        <a href="{{ route('listesd') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Discussion</a>
-                         @if(auth()->user()->statut == 'auteur')
-                        <a href="{{ route('pghistoires') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Mes histoires</a>
-                        <a href="{{ route('catalogues') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Catalogue</a>
-                        @endif
-                        @if(auth()->user()->statut == 'SuperAdmin')
-                        <a href="{{ route('yes') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">PgAdmin</a>
-                        @endif
-                        <a href="{{ route('profiles') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Profil</a>
-                        <a href="{{ route('deconnexion') }}" class="bg-red-600 text-white mt-2 px-4 py-2 rounded text-center hover:bg-red-700 transition">Déconnexion</a>
-                    </div>
+
+                <!-- Profil utilisateur -->
+                <div class="flex items-center space-x-2">
+                    <img src="{{ asset('storage/'. Auth::user()->avatar)}}" alt="Avatar" class="rounded-full w-7 h-7 object-cover">
+                    <span class="font-bold text-plume-yellow">{{ Auth::user()->name }}</span>
                 </div>
+
+                <!-- Menu mobile toggle -->
+                <div class="md:hidden">
+                    <button type="button" id="menu-toggle" class="p-2 rounded-md hover:bg-gray-100 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
-            </div>      
-        </nav>
+
+        <!-- Menu mobile (caché par défaut) -->
+        <div id="mobile-menu" class="md:hidden hidden px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+            <a href="{{ route('accueil') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Accueil</a>
+            <a href="{{ route('actions') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Histoires</a>
+            <a href="{{ route('listesd') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Discussion</a>
+            @if(auth()->user()->statut == 'auteur')
+                <a href="{{ route('pghistoires') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Mes histoires</a>
+                <a href="{{ route('catalogues') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Catalogue</a>
+            @endif
+            @if(auth()->user()->statut == 'SuperAdmin')
+                <a href="{{ route('yes') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">PgAdmin</a>
+            @endif
+            <a href="{{ route('profiles') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Profil</a>
+            <a href="{{ route('deconnexion') }}" class="bg-red-600 text-white mt-2 px-4 py-2 rounded text-center hover:bg-red-700 transition">Déconnexion</a>
+        </div>
+    </div>
+</nav>
 
         <!-- Hero Section avec image de fond -->
         <section class="relative h-screen flex justify-center items-center">
@@ -285,5 +312,20 @@
                 document.getElementById('mobile-menu').classList.toggle('hidden');
             });
         </script>
+        <script>
+    document.getElementById('notification-toggle').addEventListener('click', function () {
+        document.getElementById('notification-dropdown').classList.toggle('hidden');
+    });
+
+    // Clique en dehors pour fermer
+    window.addEventListener('click', function (e) {
+        const notifBtn = document.getElementById('notification-toggle');
+        const dropdown = document.getElementById('notification-dropdown');
+        if (!notifBtn.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+</script>
+
     </body> 
 </html>

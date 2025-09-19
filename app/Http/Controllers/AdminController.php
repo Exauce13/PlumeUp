@@ -73,14 +73,11 @@ class AdminController extends Controller
             'user' => $users
         ]);
     }
-    public function modifie(InscriptionRequest $request, User $user)
+    public function modifie(Request $request, User $user)
     {
         if (!Auth::check() || !Gate::allows('SuperAdmin')) {
             abort(403); // Interdit l'accès si l'utilisateur n'est pas connecté ou n'est pas superAdmin
         }
-        $user->name = $request->nom;
-        $user->email = $request->email;
-        $user->pseudo = $request->pseudos;
         $user->statut = $request->statut;
         $user->save();
         return redirect()->back();

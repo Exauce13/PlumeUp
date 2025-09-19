@@ -20,14 +20,15 @@ class InscriptionController extends Controller
     {
         return view('inscription');
     }
-    public function enregistrement(User $user, InscriptionRequest $request)
+    public function enregistrement(User $users, InscriptionRequest $request)
     {
-        $user->name = $request->nom;
-        $user->email = $request->email;
-        $user->pseudo = $request->pseudos;
-        $user->password = Hash::make($request->password);
-        $user->statut = $request->statut;
-        $user->save();
+        $users->name = $request->nom;
+        $users->email = $request->email;
+        $users->pseudo = $request->pseudos;
+        $users['password'] = Hash::make($request->input('password'));
+        $users->statut = $request->statut;
+
+        $users->save();
         return redirect()->route('views');
     }
     public function login()
@@ -42,8 +43,16 @@ class InscriptionController extends Controller
         ]);
         if(Auth::attempt($credentials))
         {
-            $request -> session()->regenerate();
-            return redirect()->intended('accueil');
+            if(Auth::user()->statut === 'SuperAdmin')
+            {
+                $request -> session()->regenerate();
+                return redirect()->intended('yes');
+            }
+            else
+            {
+                $request -> session()->regenerate();
+                return redirect()->intended('accueil');
+            }
         }
         return back()->withErrors(['email'=> 'Email erronée',])->onlyInput('email');
     }
