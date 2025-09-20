@@ -46,7 +46,7 @@ class InscriptionController extends Controller
             if(Auth::user()->statut === 'SuperAdmin')
             {
                 $request -> session()->regenerate();
-                return redirect()->intended('yes');
+                return redirect()->intended('admin/admindash');
             }
             else
             {

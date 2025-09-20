@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/divers', [HistoireController::class, 'fanfiction'])->name('univers');
     });
     Route::prefix('admin')->group(function(){
-            Route::get('/yes', [AdminController::class, 'page'])->name('yes');
+            Route::get('/admindash', [AdminController::class, 'page'])->name('admin.dash');
             Route::get('/liste', [AdminController::class, 'histoirelistes'])->name('listes');
             Route::get('/listeuser', [AdminController::class, 'Userlistes'])->name('lusers');
             Route::get('/modifeinfo/{users}', [AdminController::class, 'modifier'])->name('info');//Le nom du paramètre {users} doit être identique à la variable mis en paramètre

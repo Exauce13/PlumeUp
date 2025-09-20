@@ -251,7 +251,7 @@
               </div>
               <h3 class="text-xl font-semibold text-gray-800 mb-2">Aucune histoire trouvée</h3>
               <p class="text-gray-600 mb-6">Commencez à créer votre première histoire dès maintenant !</p>
-              <a href="#" class="inline-flex items-center px-6 py-3 text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105">
+              <a href="{{ route('pghistoires') }}" class="inline-flex items-center px-6 py-3 text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105">
                 <i class="fas fa-plus mr-2"></i>
                 Créer une histoire
               </a>

@@ -97,8 +97,8 @@
           <!-- Fichier du chapitre -->
           <div>
             <label for="fichier_chapitre" class="block text-sm font-semibold text-gray-700 mb-2">Fichier du chapitre</label>
-            <input type="file" id="fichier_chapitre" name="images[]" multiple accept="image/*" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-              required />
+            <input type="file" id="fichier_chapitre" name="images[]" accept="image/*" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+             multiple required  />
             @error('fichier')
               <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror

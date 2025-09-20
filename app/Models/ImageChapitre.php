@@ -14,4 +14,8 @@ class ImageChapitre extends Model
     {
         return $this->belongsTo(HistoireModel::class, 'histoire_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Notifications\AjoutLivre;
 use App\Notifications\chapitreLivre;
+use App\Notifications\webtoonChapitre;
 use Illuminate\Support\Facades\Notification;
 
 class HistoireController extends Controller
@@ -84,10 +85,15 @@ class HistoireController extends Controller
         ]);
         //where('id', '!=', Auth::id())Facultatif : pour ne pas notifier l’auteur lui-même
          $autresUtilisateurs = User::where('id', '!=', $histoire->user_id)->get();
-         // 2. Notifier l'auteur
-         $histoire->user->notify(new AjoutLivre($histoires));
          // 3. Notifier les autres utilisateurs
-         Notification::send($autresUtilisateurs, new AjoutLivre($histoires));
+         foreach($autresUtilisateurs as $utilisateurs)
+         {
+            $utilisateurs->notify( new AjoutLivre($histoires));
+         }
+         // 2. Notifier l'auteur
+         $id = Auth::id();
+         $users = User::findOrFail($id);
+         $users->notify(new AjoutLivre($histoires));
          return redirect()->back()->with('success', 'Livre publié et notifications envoyées.');
 
     }
@@ -114,12 +120,14 @@ class HistoireController extends Controller
             'is_published' => true, // facultatif si tu veux gérer publication manuelle
         ]);
         //where('id', '!=', Auth::id())Facultatif : pour ne pas notifier l’auteur lui-même
-         $autresUtilisateurs = User::where('id', '!=', $chapitres->user_id)->get();
+        $autresUtilisateurs = User::where('id', '!=', $chapitres->user_id)->get();
+        // 3. Notifier les autres utilisateurs
+        Notification::send($autresUtilisateurs, new chapitreLivre($chapitres));
          // 2. Notifier l'auteur
-         $chapitres->user->notify(new AjoutLivre($chapitres));
-         // 3. Notifier les autres utilisateurs
-         Notification::send($autresUtilisateurs, new AjoutLivre($chapitres));
-         return redirect()->back()->with('success', 'Livre publié et notifications envoyées.');
+         $authorId = Auth::id();
+        $users = User::findOrFail($authorId);
+        $users->notify(new chapitreLivre($chapitres));
+        return redirect()->back()->with('success', 'Livre publié et notifications envoyées.');
     }
     #Permet d'afficher le premier chapitre de l'oeuvre
     public function voir(HistoireModel $histoire)
@@ -281,34 +289,45 @@ class HistoireController extends Controller
     public function storewebd(Request $request)
     {
         $request->validate([
-            'titre' => 'required|string',
+            'titre' => 'required|string|max:255',
             'numero' => 'required|integer',
-            'images.*' => 'required|image|max:2048',
+            'images' => 'required',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:512000',
         ]);
-        // 📂 Traitement des images multiples à stocker dans "album" (CSV)
-        $images = null;
+        // 📂 Traitement des images multiples
+        $images = [];
         if ($request->hasFile('images')) {
-            $images = [];
             foreach ($request->file('images') as $img) {
                 $images[] = $img->store('webdchapitres', 'public');
             }
             // Limite à 12 images
             if (count($images) > 12) {
                 return back()->withErrors(['images' => 'Maximum 12 images par chapitre']);
+                }
+                // Implode des chemins (ex: "img1.jpg,img2.jpg,img3.jpg")
+                $path = implode(',', $images);
+                $webto = ImageChapitre::create([
+                    'histoire_id' => $request->histoire_id,
+                    'titre' => $request->titre,
+                    'numerochapitre' => $request->numero,
+                    'image_path' => $path,
+                    'is_published' => 1, // tinyint(1) compatible
+                    ]);
+                }
+                //where('id', '!=', Auth::id())Facultatif : pour ne pas notifier l’auteur lui-même
+                $autresUtilisateurs = User::where('id', '!=', $webto->user_id)->get();
+                // 3. Notifier les autres utilisateurs
+                foreach($autresUtilisateurs as $utilisateurs)
+                {
+                    $utilisateurs->notify( new webtoonChapitre($webto));
+                }
+                // 2. Notifier l'auteur
+                $id = Auth::id();
+                $users = User::findOrFail($id);
+                $users->notify(new webtoonChapitre($webto));
+                return back()->with('success', 'Chapitre et images enregistrés avec succès !');
             }
-            // Implode des chemins (ex: "img1.jpg,img2.jpg,img3.jpg")
-            $path = implode(',', $images);
-            ImageChapitre::create([
-                'histoire_id' => $request->histoire_id,
-                'titre' => $request->titre,
-                'numerochapitre' => $request->numero,
-                'image_path' => $path,
-                'is_published' => true,
-            ]);
-        }
-        
-        return back();
-    }
+
     public function imgchapitre(HistoireModel $histoire)
     {
         if (!Auth::check() || Gate::allows(1)) {
