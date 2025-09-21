@@ -137,8 +137,8 @@
         </section>
 
         <!-- Grille de cartes améliorée -->
-        <section class="bg-gray-50 pb-20">
-            <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <section class="bg-gray-50 pb-16">
+            <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
                 <!-- Carte Aventure & Action -->
                 <div class="bg-white rounded-2xl shadow-lg card-hover border border-gray-100 overflow-hidden">
                     <div class="p-6 text-center">

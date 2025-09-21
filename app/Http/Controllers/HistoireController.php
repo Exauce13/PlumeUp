@@ -313,7 +313,7 @@ class HistoireController extends Controller
                     'image_path' => $path,
                     'is_published' => 1, // tinyint(1) compatible
                     ]);
-                }
+        }
                 //where('id', '!=', Auth::id())Facultatif : pour ne pas notifier l’auteur lui-même
                 $autresUtilisateurs = User::where('id', '!=', $webto->user_id)->get();
                 // 3. Notifier les autres utilisateurs
@@ -326,7 +326,7 @@ class HistoireController extends Controller
                 $users = User::findOrFail($id);
                 $users->notify(new webtoonChapitre($webto));
                 return back()->with('success', 'Chapitre et images enregistrés avec succès !');
-            }
+    }
 
     public function imgchapitre(HistoireModel $histoire)
     {

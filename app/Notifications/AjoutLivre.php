@@ -32,11 +32,23 @@ class AjoutLivre extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        if($this->histoire->type_book === "Bande dessinée & Webtoon")
+        {
+            return (new MailMessage)
+            ->subject('Nouvelle histoire publiée')
+            ->line($this->histoire->user->name . ' a publié une nouvelle histoire :')
+            ->line($this->histoire->titre_book)
+            ->action('Lire maintenant', url('storage/' . $this->histoire->album));
+        }
+        else
+        {
+            return (new MailMessage)
             ->subject('Nouvelle histoire publiée')
             ->line($this->histoire->user->name . ' a publié une nouvelle histoire :')
             ->line($this->histoire->titre_book)
             ->action('Lire maintenant', url('storage/' . $this->histoire->url_book));
+        }
+        
     }
 
     /**
