@@ -84,7 +84,7 @@
           <div class="ml-10 flex items-baseline space-x-2">
              <a href="{{ route('accueil') }}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105">Accueil</a>
              <a href="{{ route('actions') }}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105">Histoires</a>
-             <a href="{{ route('listesd') }}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105">Discussion</a>
+             <!--<a href="{{--route('listesd')--}}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105">Discussion</a>-->
              @if(auth()->user()->statut == 'auteur')
              <a href="{{ route('pghistoires') }}" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">Mes histoires</a>
              <a href="{{ route('catalogues') }}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105">Catalogue</a>
@@ -113,7 +113,7 @@
         <div class="px-2 space-y-1">
           <a href="{{ route('accueil') }}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-3 py-2 rounded-xl text-base font-medium block transition-all duration-200">Accueil</a>
           <a href="{{ route('actions') }}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-3 py-2 rounded-xl text-base font-medium block transition-all duration-200">Histoires</a>
-          <a href="{{ route('listesd') }}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-3 py-2 rounded-xl text-base font-medium block transition-all duration-200">Discussion</a>
+          <!--<a href="{{--route('listesd')--}}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-3 py-2 rounded-xl text-base font-medium block transition-all duration-200">Discussion</a>-->
           @if(auth()->user()->statut == 'auteur')
           <a href="{{ route('pghistoires') }}" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-2 rounded-xl text-base font-medium block shadow-lg">Mes histoires</a>
           <a href="{{ route('catalogues') }}" class="text-gray-700 hover:bg-white/50 hover:text-purple-600 px-3 py-2 rounded-xl text-base font-medium block transition-all duration-200">Catalogue</a>

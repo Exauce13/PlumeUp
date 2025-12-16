@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    
 
     /**
      * The attributes that are mass assignable.
@@ -44,4 +45,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function abonnements()
+    {
+        return $this->belongsToMany(User::class,'abonnement','subscriber_id','author_id')->withTimestamps()->where('users.statut', 'auteur'); // sécurité
+    }
+    public function abonnes()
+    {
+        return $this->belongsToMany(User::class, 'abonnement', 'author_id',  'subscriber_id')->withTimestamps();
+    }
+    public function scopeAuthors($query)
+    {
+        return $query->where('statut', 'auteur');
+    }
+    public function scopeReaders($query)
+    {
+        return $query->where('statut', 'Utilisateur');
+    }
+
 }

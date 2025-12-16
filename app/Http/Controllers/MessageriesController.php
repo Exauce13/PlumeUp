@@ -13,7 +13,7 @@ use Illuminate\Contracts\Auth\Factory as AuthManager; // ou use Illuminate\Auth\
 class MessageriesController extends Controller
 {
     #Elle permet d'afficher tous les personnes avec qui j'ai une discussion
-    public function index()
+    /*public function index()
     {
          $users = User::whereIn('id', function($query) {
             $query->select('destinataire')->from('friends')->where('expediteur', Auth::id())->where('is_friends', 1);})
@@ -53,6 +53,6 @@ class MessageriesController extends Controller
             'content' => $validated['content'],
         ]);
         return back();
-    }
+    }*/
 
 }

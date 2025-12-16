@@ -33,13 +33,13 @@
                             <div class="flex items-center space-x-6">
                                 <a href="{{ route('accueil') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Accueil</a>
                                 <a href="{{ route('actions') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Histoires</a>
-                                <a href="{{ route('listesd') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Discussion</a>
+                                <!--<a href="#" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Discussion</a>-->
                                 @if(auth()->user()->statut == 'auteur')
                                 <a href="{{ route('pghistoires') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Mes histoires</a>
                                 <a href="{{ route('catalogues') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Catalogue</a>
                                 @endif
                                 @if(auth()->user()->statut == 'SuperAdmin')
-                                <a href="{{ route('yes') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">PgAdmin</a>
+                                <a href="{{ route('admin.dash') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">PgAdmin</a>
                                 @endif
                                 <a href="{{ route('profiles') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Profil</a>
                                 <a href="#" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150">À propos</a>
@@ -68,13 +68,13 @@
                     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
                         <a href="{{ route('accueil') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Accueil</a>
                         <a href="{{ route('actions') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Histoires</a>
-                        <a href="{{ route('listesd') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Discussion</a>
+                        <!--<a href="#" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Discussion</a>-->
                          @if(auth()->user()->statut == 'auteur')
                         <a href="{{ route('pghistoires') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Mes histoires</a>
                         <a href="{{ route('catalogues') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Catalogue</a>
                         @endif
                         @if(auth()->user()->statut == 'SuperAdmin')
-                        <a href="{{ route('yes') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">PgAdmin</a>
+                        <a href="{{ route('admin.dash') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">PgAdmin</a>
                         @endif
                         <a href="{{ route('profiles') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Contacts</a>
                         <a href="{{ route('deconnexion') }}" class="bg-red-600 text-white mt-2 px-4 py-2 rounded text-center hover:bg-red-700 transition">Déconnexion</a>
@@ -92,6 +92,9 @@
                 <img src="{{ asset('storage/'. Auth::user()->avatar)}}" class="w-32 h-32 rounded-full border-4 border-yellow-300 mx-auto object-cover" alt="Profile">
                 <h2 class="mt-4 text-2xl font-bold">{{ Auth::user()->name }}</h2>
                 <p class="text-gray-500">Statut: {{ Auth::user()->statut }}</p>
+                @if(Auth::user()->statut == "auteur")
+                <p class="text-gray-500">Nombre followers: {{Auth::user()->abonnes->count() }}</p>
+                @endif
             </div>
             <form action="{{ route('photo') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
@@ -106,7 +109,7 @@
             </form>
         </div>
     </section>
-    <!-- Users List -->
+    <!-- Users List 
 <section class="py-12 px-4 max-w-6xl mx-auto">
     <h3 class="text-2xl font-semibold text-gray-800 mb-4">Discussions</h3>
 
@@ -115,7 +118,7 @@
         Nous encourageons des conversations respectueuses et enrichissantes autour de la lecture, de l'écriture et de l'imaginaire.
     </p>
 
-    <!-- Barre de recherche -->
+     Barre de recherche 
     <form action="{{ route('susers') }}" method="GET" class="mb-6">
         <div class="flex items-center space-x-2">
             <input type="text" name="query" placeholder="Rechercher un utilisateur..." class="flex-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 shadow-sm">
@@ -128,34 +131,34 @@
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
             <tbody>
-                @forelse($utilisateurs as $user)
+                {{--@forelse($utilisateurs as $user)--}}
                 <tr class="hover:bg-gray-50 transition duration-150 ease-in-out">
                     <td class="px-6 py-4 whitespace-nowrap flex items-center">
-                        <img src="{{ asset('storage/'.$user->avatar) }}" class="w-10 h-10 rounded-full mr-3 object-cover" alt="Avatar">
+                        <img src="{{--asset('storage/'.$user->avatar)--}}" class="w-10 h-10 rounded-full mr-3 object-cover" alt="Avatar">
                         <div>
-                            <div class="font-semibold text-gray-900">{{ $user->name }}</div>
-                            <div class="text-sm text-gray-500">{{ $user->pseudo }}</div>
+                            <div class="font-semibold text-gray-900">{{--$user->name--}}</div>
+                            <div class="text-sm text-gray-500">{{--$user->pseudo--}}</div>
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{ $user->statut === '' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                            {{ $user->statut ?: 'Actif' }}
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{--$user->statut === '' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'--}}">
+                            {{-- $user->statut ?: 'Actif' --}}
                         </span>
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('futurpotes', $user->id) }}" class="text-indigo-600 hover:underline text-sm">
+                        <a href="{{--route('futurpotes', $user->id)--}}" class="text-indigo-600 hover:underline text-sm">
                             <i class="fas fa-comments mr-1"></i> Discussion
                         </a>
                     </td>
                 </tr>
-                @empty
+                {{--@empty--}}
                 <tr>
                     <td colspan="3" class="text-center py-6 text-gray-500">Aucun utilisateur trouvé.</td>
                 </tr>
-                @endforelse
+                {{--@endforelse--}}
             </tbody>
         </table>
     </div>
-</section>
+</section>-->
 </body>
 </html>

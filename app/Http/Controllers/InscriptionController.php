@@ -71,16 +71,14 @@ class InscriptionController extends Controller
        if (!Auth::check() || Gate::allows(1)) {
             abort(403);
         }
-        $users = User::where('id', '!=', Auth::id())->whereNotIn('id', function($query) {
+        /*$users = User::where('id', '!=', Auth::id())->whereNotIn('id', function($query) {
             #cette requête permet de récupérer la liste des personnes qui sont pas amis avec  un destinataire 
             $query->select('destinataire')->from('friends')->where('expediteur', Auth::id())->where('is_friends', 1);
         })->whereNotIn('id', function($query) {
             #cette requête permet de récupérer la liste des personnes qui sont pas amis avec un expéditeur
             $query->select('expediteur')->from('friends')->where('destinataire', Auth::id())->where('is_friends', 1);
-        })->get(['id', 'name', 'pseudo', 'avatar']);
-        return view('profile', [
-            'utilisateurs' => $users
-        ]);
+        })->get(['id', 'name', 'pseudo', 'avatar']);*/
+        return view('profile');
     }
     public function changementprofile(Request $request)
     {
@@ -102,14 +100,14 @@ class InscriptionController extends Controller
         $user->save();
         return back()->with('success', 'Profil modifié avec succès.');
     }
-    public function searchusers(Request $request)
+    /*public function searchusers(Request $request)
     {
         $query = $request->input('query');
         $users = User::where('name', 'like', '%' . $query . '%')->orWhere('pseudo', 'like', '%' . $query . '%')->paginate(20);
         return view('searchusers', [
             'users' => $users
         ]);
-    }
+    }*/
 
 
 }

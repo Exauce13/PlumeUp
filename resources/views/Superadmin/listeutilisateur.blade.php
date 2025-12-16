@@ -15,7 +15,7 @@
       <h1 class="text-2xl font-bold text-indigo-700">PlumeUP Admin</h1>
     </div>
     <nav class="flex-1 p-4 space-y-2">
-      <a href="{{ route('yes') }}" class="flex items-center px-3 py-2 rounded hover:bg-indigo-100 text-gray-700">
+      <a href="{{ route('admin.dash') }}" class="flex items-center px-3 py-2 rounded hover:bg-indigo-100 text-gray-700">
         <i class="fas fa-home mr-3 text-indigo-600"></i> Tableau de bord
       </a>
       <a href="{{ route('listes') }}" class="flex items-center px-3 py-2 rounded hover:bg-indigo-100 text-gray-700">

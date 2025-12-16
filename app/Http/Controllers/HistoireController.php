@@ -18,12 +18,6 @@ use Illuminate\Support\Facades\Notification;
 
 class HistoireController extends Controller
 {
-    // Optionnel : petit helper pour vérifier si c’est du JSON
-    private function isJson($string)
-    {
-        json_decode($string);
-        return json_last_error() === JSON_ERROR_NONE;
-    }
 
     public function pagehistoire()
     {
@@ -44,7 +38,7 @@ class HistoireController extends Controller
             'type' => 'required|string|in:Aventure & Action,Romance,Fantastique & Fantasy,Science-Fiction,Horreur & Suspense,Policier & Mystère,Drame & Réalisme,Historique,Jeunesse & Contes,Poèmes & Textes courts,Bande dessinée & Webtoon,Fanfiction & Univers dérivés',
             'photos' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:102400',
             'mode' => 'required|string|in:Par chapitres ou tomes,En une seule fois',
-            'histoire_images.*' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:51200',
+            'histoire_images.*' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:102400',
         ]);
         // Image de couverture
         $photoPath = null;

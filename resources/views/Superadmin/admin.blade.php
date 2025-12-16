@@ -133,7 +133,17 @@
         
         <nav class="mt-8 px-4">
             <div class="space-y-3">
-                <a href='{{ route('yes') }}' class="sidebar-item w-full flex items-center px-6 py-4 text-white/90 rounded-2xl morphism hover:bg-white/20 transition-all duration-300 group">
+                <a href='{{ route('accueil') }}' class="sidebar-item w-full flex items-center px-6 py-4 text-white/90 rounded-2xl morphism hover:bg-white/20 transition-all duration-300 group">
+                    <div class="p-2 bg-white/20 rounded-xl mr-4 group-hover:bg-white/30 transition-all duration-300">
+                        <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">PlumeUP</div>
+                        <div class="text-xs text-white/70">Site</div>
+                    </div>
+                </a>
+
+                <a href='{{ route('admin.dash') }}' class="sidebar-item w-full flex items-center px-6 py-4 text-white/90 rounded-2xl morphism hover:bg-white/20 transition-all duration-300 group">
                     <div class="p-2 bg-white/20 rounded-xl mr-4 group-hover:bg-white/30 transition-all duration-300">
                         <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                     </div>

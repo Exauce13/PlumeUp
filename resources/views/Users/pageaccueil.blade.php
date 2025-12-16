@@ -38,13 +38,13 @@
             <div class="hidden md:flex space-x-6">
                 <a href="{{ route('accueil') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Accueil</a>
                 <a href="{{ route('actions') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Histoires</a>
-                <a href="{{ route('listesd') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Discussion</a>
+                <!--<a href="{{-- route('listesd') --}}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Discussion</a>-->
                 @if(auth()->user()->statut == 'auteur')
                     <a href="{{ route('pghistoires') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Mes histoires</a>
                     <a href="{{ route('catalogues') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Catalogue</a>
                 @endif
                 @if(auth()->user()->statut == 'SuperAdmin')
-                    <a href="{{ route('yes') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">PgAdmin</a>
+                    <a href="{{ route('admin.dash') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">PgAdmin</a>
                 @endif
                 <a href="{{ route('profiles') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Profil</a>
                 <a href="{{ route('a-propos') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">À propos</a>
@@ -106,13 +106,13 @@
         <div id="mobile-menu" class="md:hidden hidden px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
             <a href="{{ route('accueil') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Accueil</a>
             <a href="{{ route('actions') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Histoires</a>
-            <a href="{{ route('listesd') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Discussion</a>
+            <!--<a href="{{--route('listesd')--}}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Discussion</a>-->
             @if(auth()->user()->statut == 'auteur')
                 <a href="{{ route('pghistoires') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Mes histoires</a>
                 <a href="{{ route('catalogues') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Catalogue</a>
             @endif
             @if(auth()->user()->statut == 'SuperAdmin')
-                <a href="{{ route('yes') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">PgAdmin</a>
+                <a href="{{ route('admin.dash') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">PgAdmin</a>
             @endif
             <a href="{{ route('profiles') }}" class="text-black hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">Profil</a>
             <a href="{{ route('deconnexion') }}" class="bg-red-600 text-white mt-2 px-4 py-2 rounded text-center hover:bg-red-700 transition">Déconnexion</a>

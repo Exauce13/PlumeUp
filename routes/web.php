@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\FriendsController;
@@ -12,6 +13,7 @@ use App\Http\Requests\InscriptionRequest;
 use App\Models\HistoireModel;
 use App\Models\HistoireModels;
 use App\Http\Middleware\Friends;
+use App\Models\Abonnement;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,7 +33,7 @@ Route::middleware(['auth'])->group(function(){
     })->name('accueil');
     Route::get('/a-propos', function () {
         return view('apropos');
-    })->name('a-propos');
+    })->name('apropos');
 
     Route::get('/deconnexion', [InscriptionController::class, 'logout'])->name('deconnexion');
     Route::get('/profile', [InscriptionController::class, 'photoprofile'])->name('profiles');
@@ -44,6 +46,8 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/reponsecommentaires', [CommentaireController::class, 'repondrecommentaire'])->name('reponse');
     Route::post('/like/{histoireid}/like', [LikeDislikeController::class, 'like'])->name('like');
     Route::post('/dislike/{histoireid}/dislike', [LikeDislikeController::class, 'dislike'])->name('dislike');
+    Route::post('/authors/{authorId}/subscribe', [AbonnementController::class, 'subscribe'])->name('author.subscribe');
+    Route::delete('/authors/{authorId}/unsubscribe', [AbonnementController::class, 'unsubscribe'])->name('author.unsubscribe');
     Route::get('/catalogue', [HistoireController::class, 'listehistoire'])->name('catalogues');
     Route::get('/formulairechapitre/{histoirechap}', [HistoireController::class,  'formchapitre'])->name('form');
     Route::post('/chapitre/diffusion', [HistoireController::class, 'publierChapitre'])->name('chapitre');
@@ -83,7 +87,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/usersrecherche', [AdminController::class, 'recherusers'])->name('userec');
             Route::get('/histoire', [AdminController::class, 'recheristoire'])->name('livres');
     });
-    Route::prefix('messages')->group( function(){
+   /* Route::prefix('messages')->group( function(){
         Route::get('/listediscussion', [MessageriesController::class, 'index'])->name('listesd');
         Route::get('/devenirami/{id}', [FriendsController::class, 'isfriends'])->name('futurpotes');
         Route::get('/friends', [FriendsController::class, 'index'])->name('friendsindex');
@@ -92,7 +96,7 @@ Route::middleware(['auth'])->group(function(){
         Route::delete('/friends/delete/{id}', [FriendsController::class, 'deleteFriend'])->name('friends.delete');
         Route::get('/voirmessages/{user}', [MessageriesController::class, 'voirMessagesDeDiscussion'])->name('listemessages');
         Route::post('/message/{user}', [MessageriesController::class, 'messages'])->name('envoiemessage');
-    });
+    });*/
     Route::prefix('search')->group(function(){
         Route::get('/users', [InscriptionController::class, 'searchusers'])->name('susers');
         Route::get('/histoire',[HistoireController::class, 'searchistoire'])->name('shistoire');

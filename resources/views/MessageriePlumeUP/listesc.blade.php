@@ -21,13 +21,13 @@
                     <div class="hidden md:flex gap-6 ml-8">
                         <a href="{{ route('accueil') }}" class="text-gray-700 hover:text-blue-600 transition">Accueil</a>
                         <a href="{{ route('actions') }}" class="text-gray-700 hover:text-blue-600 transition">Histoires</a>
-                        <a href="{{ route('listesd') }}" class="text-blue-700 font-medium underline">Discussion</a>
+                        <!--<a href="{{ route('listesd') }}" class="text-blue-700 font-medium underline">Discussion</a>-->
                         @if(auth()->user()->statut == 'auteur')
                             <a href="{{ route('pghistoires') }}" class="text-gray-700 hover:text-blue-600 transition">Mes histoires</a>
                             <a href="{{ route('catalogues') }}" class="text-gray-700 hover:text-blue-600 transition">Catalogue</a>
                         @endif
                         @if(auth()->user()->statut == 'SuperAdmin')
-                            <a href="{{ route('yes') }}" class="text-gray-700 hover:text-blue-600 transition">PgAdmin</a>
+                            <a href="{{ route('admin.dash') }}" class="text-gray-700 hover:text-blue-600 transition">PgAdmin</a>
                         @endif
                         <a href="{{ route('profiles') }}" class="text-gray-700 hover:text-blue-600 transition">Profil</a>
                         <a href="#" class="text-gray-700 hover:text-blue-600 transition">À propos</a>
@@ -53,7 +53,7 @@
                 <div class="flex flex-col space-y-2">
                     <a href="{{ route('accueil') }}" class="px-3 py-2 hover:bg-gray-100 rounded">Accueil</a>
                     <a href="{{ route('actions') }}" class="px-3 py-2 hover:bg-gray-100 rounded">Histoires</a>
-                    <a href="{{ route('listesd') }}" class="px-3 py-2 hover:bg-gray-100 rounded">Discussion</a>
+                    <!--<a href="{{ route('listesd') }}" class="px-3 py-2 hover:bg-gray-100 rounded">Discussion</a>-->
                     @if(auth()->user()->statut == 'auteur')
                     <a href="{{ route('pghistoires') }}" class="px-3 py-2 hover:bg-gray-100 rounded">Mes histoires</a>
                     <a href="{{ route('catalogues') }}" class="px-3 py-2 hover:bg-gray-100 rounded">Catalogues</a>
